@@ -54,8 +54,6 @@ exports.login = async (req, res) => {
                               email,
                               phone,
                               address,
-                              location,
-                              npwp,
                               active         
                            FROM branches
                            WHERE id = ?
@@ -165,8 +163,6 @@ exports.refresh = async (req, res) => {
                               email,
                               phone,
                               address,
-                              location,
-                              npwp,
                               active         
                            FROM branches
                            WHERE id = ?

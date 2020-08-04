@@ -2,8 +2,8 @@ var sql = require("mariadb")
 var Listener = require("@m-dary-nur/sql-listener")
 
 var host = "localhost"
-var user = process.env.NODE_ENV === "development" ? "zaplin" : "bmm_administrator"
-var password = "N0madgen007"
+var user = process.env.NODE_ENV === "development" ? "root" : "bmm_root"
+var password = "n0madgen007"
 var database = "bmm"
 var port = 3306
 
@@ -20,7 +20,7 @@ var settings = {
 var conn = sql.createPool({ ...settings, database })
 //======================================================================================
 
-var tables = ["clients", "branches", "users"]
+var tables = ["clients", "branches", "users", "taxtypes", "taxaccs", "taxconfs", "warehouses", "suppliers", "itemtypes", "itemgroups", "items"]
 
 var live = new Listener(settings, process.env.NODE_ENV === "development")
 var livedb = async () => {
