@@ -17,6 +17,7 @@ app.use(
          "https://cv-bmm.site:13131",
          "https://cv-bmm.site:3001",
          "https://cv-bmm.site",
+         "wss://cv-bmm.site:13131",
       ],
       allowedHeaders: ["Content-Type", "Authorization"],
       credentials: true,
