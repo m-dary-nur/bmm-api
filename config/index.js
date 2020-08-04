@@ -12,12 +12,11 @@ app.parse = require("@polka/url")
 app.use(
    cors({
       origin: [
-         "http://localhost:5000",
-         "http://192.168.43.58:5000",
          "http://localhost:13131",
-         "https://miniera.tech:13131",
-         "https://miniera.tech",
-         "https://bmm.miniera.tech",
+         "http://localhost:3001",
+         "https://cv-bmm.site:13131",
+         "https://cv-bmm.site:3001",
+         "https://cv-bmm.site",
       ],
       allowedHeaders: ["Content-Type", "Authorization"],
       credentials: true,
