@@ -12,6 +12,7 @@ app.parse = require("@polka/url")
 app.use(
    cors({
       origin: [
+         "http://localhost:5000",
          "http://localhost:13131",
          "http://localhost:3001",
          "https://cv-bmm.site:13131",
