@@ -10,6 +10,10 @@ app.get("/refresh", auth.refresh)
 app.post("/login", auth.login)
 app.post("/logout", auth.logout)
 
+//_________________________________________ feedbacks ___________________________________________
+var feedbacks = require("./feedbacks")
+app.post("/feedbacks", feedbacks.create)
+
 //_________________________________________ branches ___________________________________________
 var branches = require("./master/branches")
 app.get("/branches", branches.getAll)
