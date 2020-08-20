@@ -83,7 +83,13 @@ app.post("/items", items.create)
 app.put("/items", items.update)
 app.delete("/items/:id", items.delete)
 
-
+//_________________________________________ ppo ___________________________________________
+var ppo = require("./purchase/ppo")
+app.get("/ppo", ppo.getAll)
+app.get("/ppo/:id", ppo.getById)
+app.post("/ppo", ppo.create)
+app.put("/ppo", ppo.update)
+app.delete("/ppo/:id", ppo.delete)
 
 
 

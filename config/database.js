@@ -20,7 +20,10 @@ var settings = {
 var conn = sql.createPool({ ...settings, database })
 //======================================================================================
 
-var tables = ["clients", "branches", "users", "taxtypes", "taxaccs", "taxconfs", "warehouses", "suppliers", "itemtypes", "itemgroups", "items"]
+const masterTables = ["clients", "branches", "users", "taxtypes", "taxaccs", "taxconfs", "warehouses", "suppliers", "itemtypes", "itemgroups", "items"]
+const purchaseTables = ["ppo"]
+
+var tables = [ ...masterTables, ...purchaseTables ]
 
 var live = new Listener(settings, process.env.NODE_ENV === "development")
 var livedb = async () => {
