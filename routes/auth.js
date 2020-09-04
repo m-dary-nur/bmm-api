@@ -19,7 +19,7 @@ exports.login = async (req, res) => {
                         FROM clients
                         WHERE code = ?
                         AND active = 1`
-      const resClient = await db.query(qClient, ["001"])
+      const resClient = await db.query(qClient, ["BMM"])
       const client = resClient[0]
 
       if (resClient.length > 0) {         

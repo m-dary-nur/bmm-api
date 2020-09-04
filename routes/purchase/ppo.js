@@ -10,9 +10,71 @@ exports.getAll = async (req, res) => {
       if (decode.logged) {
          db = await conn.getConnection()
 
-         const query = `SELECT *
+         const query = `SELECT 
+                           id,
+                           clientId,
+                           branchId,
+                           no,
+                           DATE_FORMAT(date, '%Y-%m-%d') date,
+                           ref,
+                           description,
+                           status
                         FROM ppo
-                        WHERE clientId = ? `
+                        WHERE clientId = ?`
+         const result = await db.query(query, [decode.client])
+
+         db.release()
+
+         if (result.length > 0) {
+            res.end(JSON.stringify({
+               success: true,
+               data: result,
+            }))
+         } else {
+            res.end(JSON.stringify({
+               success: true,
+               data: [],
+            }))
+         }
+      } else {
+         res.end(JSON.stringify({
+            success: false,
+            message: "Sesi login tidak valid.",
+         }))
+      }
+   } catch (err) {
+      console.log(err)
+      res.end(JSON.stringify({
+         success: false,
+         message: "Internal Error.",
+         error: err,
+      }))
+      throw err
+   } finally {
+      if (db) db.release()
+   }
+}
+//=============================================== getAllDet =====================================================
+exports.getAllDet = async (req, res) => {
+   let db
+   try {
+      const decode = verify(req.headers["authorization"])
+      if (decode.logged) {
+         db = await conn.getConnection()
+
+         const query = `SELECT 
+                           id,
+                           clientId,
+                           branchId,
+                           poId,
+                           itemId,
+                           DATE_FORMAT(dateRequired, '%Y-%m-%d') AS dateRequired,
+                           qty,
+                           ratio,
+                           unit,
+                           description
+                        FROM ppodet
+                        WHERE clientId = ?`
          const result = await db.query(query, [decode.client])
 
          db.release()
@@ -100,13 +162,14 @@ exports.create = async (req, res) => {
       const decode = verify(req.headers["authorization"])
       if (decode.logged) {
          db = await conn.getConnection()
-         const query = `call ppoCreate(?,?,?,?,?,?,?)`         
+         const query = `call ppoCreate(?,?,?,?,?,?,?,?)`  
          const result = await db.query(query, [
-            form.name,
-            form.description || "",
-            (form.active ? 1 : 0),
+            form.date,
+            form.ref,
+            form.description || '',
+            JSON.stringify(form.detail) || '[]',
             decode.client,
-            form.branchId,
+            decode.branch,
             decode.user,
             form.log,
          ])
@@ -116,7 +179,7 @@ exports.create = async (req, res) => {
          if (result[0][0].status === "ok") {
             res.end(JSON.stringify({
                success: true,
-               message: `Gudang "${form.name}" berhasil dibuat`,
+               message: `Pre Order Pembelian "${result[0][0].no}" berhasil dibuat`,
             }))
          } else {
             res.end(JSON.stringify({
@@ -155,11 +218,11 @@ exports.update = async (req, res) => {
          const query = `call ppoUpdate(?,?,?,?,?,?,?,?)`
          const result = await db.query(query, [            
             form.id,
-            form.name,
-            form.description || "",
-            (form.active ? 1 : 0),
+            form.ref,
+            form.description || '',
+            JSON.stringify(form.detail) || '[]',
             decode.client,
-            form.branchId,
+            decode.branch,
             decode.user,
             form.log,
          ])
@@ -169,7 +232,7 @@ exports.update = async (req, res) => {
          if (result[0][0].status === "ok") {
             res.end(JSON.stringify({
                success: true,
-               message: `Gudang "${form.name}" berhasil diperbarui`,
+               message: `Pre Order Pembelian "${result[0][0].no}" berhasil diperbarui`,
             }))
          } else {
             res.end(JSON.stringify({
@@ -210,7 +273,7 @@ exports.delete = async (req, res) => {
          if (result[0][0].status === "ok") {
             res.end(JSON.stringify({
                success: true,
-               message: `Gudang "${send.label}" berhasil dihapus`,
+               message: `Pre Order Pembelian "${send.label}" berhasil dihapus`,
             }))
          } else {
             res.end(JSON.stringify({
