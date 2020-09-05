@@ -66,7 +66,7 @@ exports.getAllDet = async (req, res) => {
                            id,
                            clientId,
                            branchId,
-                           poId,
+                           ppoId,
                            itemId,
                            DATE_FORMAT(dateRequired, '%Y-%m-%d') AS dateRequired,
                            qty,

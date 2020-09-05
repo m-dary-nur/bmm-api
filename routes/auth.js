@@ -54,7 +54,8 @@ exports.login = async (req, res) => {
                               email,
                               phone,
                               address,
-                              active         
+                              captionPurchase,
+                              captionSale       
                            FROM branches
                            WHERE id = ?
                            AND active = 1`
@@ -163,7 +164,8 @@ exports.refresh = async (req, res) => {
                               email,
                               phone,
                               address,
-                              active         
+                              captionPurchase,
+                              captionSale       
                            FROM branches
                            WHERE id = ?
                            AND active = 1`
