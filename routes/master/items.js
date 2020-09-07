@@ -100,12 +100,13 @@ exports.create = async (req, res) => {
       const decode = verify(req.headers["authorization"])
       if (decode.logged) {
          db = await conn.getConnection()
-         const query = `call itemsCreate(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`         
+         const query = `call itemsCreate(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`         
          const result = await db.query(query, [
             form.itemGroupId,
+            form.supplierId || 0,
             form.code,
             form.barcode || "",
-            form.barcodeSupplier || "",
+            form.barcodeGlobal || "",
             form.name,
             form.alias || "",
             form.unit1,
@@ -167,13 +168,14 @@ exports.update = async (req, res) => {
       const decode = verify(req.headers["authorization"])
       if (decode.logged) {
          db = await conn.getConnection()
-         const query = `call itemsUpdate(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`         
+         const query = `call itemsUpdate(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`         
          const result = await db.query(query, [
             form.id,
             form.itemGroupId,
+            form.supplierId || 0,
             form.code,
             form.barcode || "",
-            form.barcodeSupplier || "",
+            form.barcodeGlobal || "",
             form.name,
             form.alias || "",
             form.unit1,
