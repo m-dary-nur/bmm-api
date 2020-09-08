@@ -21,7 +21,7 @@ var conn = sql.createPool({ ...settings, database })
 //======================================================================================
 
 const masterTables = ["clients", "branches", "users", "taxtypes", "taxaccs", "taxconfs", "warehouses", "suppliers", "itemtypes", "itemgroups", "items"]
-const purchaseTables = ["ppo", "ppodet"]
+const purchaseTables = ["ppo", "ppodet", "po", "podet"]
 
 var tables = [ ...masterTables, ...purchaseTables ]
 

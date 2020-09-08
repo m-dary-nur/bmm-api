@@ -92,6 +92,14 @@ app.post("/ppo", ppo.create)
 app.put("/ppo", ppo.update)
 app.delete("/ppo/:id", ppo.delete)
 
+//_________________________________________ po ___________________________________________
+var ppo = require("./purchase/po")
+app.get("/po", ppo.getAll)
+app.get("/podet", ppo.getAllDet)
+app.get("/po/:id", ppo.getById)
+app.post("/po", ppo.create)
+app.put("/po", ppo.update)
+app.delete("/po/:id", ppo.delete)
 
 
 
