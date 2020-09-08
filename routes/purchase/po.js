@@ -14,9 +14,10 @@ exports.getAll = async (req, res) => {
                            id,
                            clientId,
                            branchId,
+                           ppoId,
                            supplierId,
                            no,
-                           DATE_FORMAT(date, '%Y-%m-%d') date,
+                           date,
                            ref,
                            address,
                            description,
@@ -74,7 +75,9 @@ exports.getAllDet = async (req, res) => {
                            qty,
                            ratio,
                            unit,
-                           description
+                           description,
+                           price,
+                           total
                         FROM podet
                         WHERE clientId = ?`
          const result = await db.query(query, [decode.client])
@@ -164,7 +167,7 @@ exports.create = async (req, res) => {
       const decode = verify(req.headers["authorization"])
       if (decode.logged) {
          db = await conn.getConnection()
-         const query = `call poCreate(?,?,?,?,?,?,?,?)`  
+         const query = `call poCreate(?,?,?,?,?,?,?,?,?,?,?)`  
          const result = await db.query(query, [
             form.ppoId,
             form.supplierId,
@@ -220,7 +223,7 @@ exports.update = async (req, res) => {
       const decode = verify(req.headers["authorization"])
       if (decode.logged) {
          db = await conn.getConnection()
-         const query = `call poUpdate(?,?,?,?,?,?,?,?)`
+         const query = `call poUpdate(?,?,?,?,?,?,?,?,?,?)`
          const result = await db.query(query, [            
             form.id,
             form.supplierId,
