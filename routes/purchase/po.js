@@ -169,7 +169,7 @@ exports.create = async (req, res) => {
          db = await conn.getConnection()
          const query = `call poCreate(?,?,?,?,?,?,?,?,?,?,?)`  
          const result = await db.query(query, [
-            form.ppoId,
+            form.ppoId || 0,
             form.supplierId,
             form.date,
             form.ref || '',
