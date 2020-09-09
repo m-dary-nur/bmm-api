@@ -1,6 +1,5 @@
 const { conn } = require("../../config/database")
 const { verify } = require("../../config/jwt")
-const { enc } = require("../../config/encryption")
 
 //=============================================== getAll =====================================================
 exports.getAll = async (req, res) => {

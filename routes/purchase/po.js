@@ -1,6 +1,6 @@
+const moment = require("moment")
 const { conn } = require("../../config/database")
 const { verify } = require("../../config/jwt")
-const { enc } = require("../../config/encryption")
 
 //=============================================== getAll =====================================================
 exports.getAll = async (req, res) => {
@@ -169,6 +169,7 @@ exports.create = async (req, res) => {
       if (decode.logged) {
          db = await conn.getConnection()
          const query = `call poCreate(?,?,?,?,?,?,?,?,?,?,?)`  
+         form.detail = form.detail.map(x => ({...x, dateRequired: moment(x.dateRequired).format("YYYY-MM-DD")}))
          const result = await db.query(query, [
             form.ppoId || 0,
             form.supplierId,
@@ -225,6 +226,7 @@ exports.update = async (req, res) => {
       if (decode.logged) {
          db = await conn.getConnection()
          const query = `call poUpdate(?,?,?,?,?,?,?,?,?,?)`
+         form.detail = form.detail.map(x => ({...x, dateRequired: moment(dateRequired).format("YYYY-MM-DD")}))
          const result = await db.query(query, [            
             form.id,
             form.supplierId,
