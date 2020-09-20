@@ -14,15 +14,15 @@ exports.getAll = async (req, res) => {
                            id,
                            clientId,
                            branchId,
-                           ppoId,
+                           poId,
                            supplierId,
+                           warehouseId,
                            no,
                            date,
                            ref,
-                           address,
                            description,
                            status
-                        FROM po
+                        FROM pd
                         WHERE clientId = ?`
          const result = await db.query(query, [decode.client])
 
@@ -69,17 +69,16 @@ exports.getAllDet = async (req, res) => {
                            id,
                            clientId,
                            branchId,
-                           poId,
-                           ppodetId,
+                           pdId,
+                           podetId,
                            itemId,
-                           DATE_FORMAT(dateRequired, '%Y-%m-%d') AS dateRequired,
                            qty,
                            ratio,
                            unit,
-                           description,
                            price,
-                           total
-                        FROM podet
+                           total,
+                           description
+                        FROM pddet
                         WHERE clientId = ?`
          const result = await db.query(query, [decode.client])
 
@@ -123,7 +122,7 @@ exports.getById = async (req, res) => {
       if (decode.logged) {
          db = await conn.getConnection()
          const query = `	SELECT *
-                           FROM po
+                           FROM pd
                            WHERE clientId = ?
                            AND id = ? `
          const result = await db.query(query, [decode.client, param.id])
@@ -168,13 +167,13 @@ exports.create = async (req, res) => {
       const decode = verify(req.headers["authorization"])
       if (decode.logged) {
          db = await conn.getConnection()
-         const query = `call poCreate(?,?,?,?,?,?,?,?,?,?,?)`  
+         const query = `call pdCreate(?,?,?,?,?,?,?,?,?,?,?)`  
          const result = await db.query(query, [
-            form.ppoId || 0,
+            form.poId || 0,
             form.supplierId,
+            form.warehouseId,
             form.date,
             form.ref || '',
-            form.address || '',
             form.description || '',
             JSON.stringify(form.detail) || '[]',
             decode.client,
@@ -188,7 +187,7 @@ exports.create = async (req, res) => {
          if (result[0][0].status === "ok") {
             res.end(JSON.stringify({
                success: true,
-               message: `Order Pembelian "${result[0][0].no}" berhasil dibuat`,
+               message: `Penerimaan Pembelian "${result[0][0].no}" berhasil dibuat`,
             }))
          } else {
             res.end(JSON.stringify({
@@ -224,12 +223,11 @@ exports.update = async (req, res) => {
       const decode = verify(req.headers["authorization"])
       if (decode.logged) {
          db = await conn.getConnection()
-         const query = `call poUpdate(?,?,?,?,?,?,?,?,?,?)`
+         const query = `call pdUpdate(?,?,?,?,?,?,?,?,?)`
          const result = await db.query(query, [            
             form.id,
-            form.supplierId,
-            form.ref,
-            form.address || '',
+            form.date,
+            form.ref || '',
             form.description || '',
             JSON.stringify(form.detail) || '[]',
             decode.client,
@@ -243,7 +241,7 @@ exports.update = async (req, res) => {
          if (result[0][0].status === "ok") {
             res.end(JSON.stringify({
                success: true,
-               message: `Order Pembelian "${result[0][0].no}" berhasil diperbarui`,
+               message: `Penerimaan Pembelian "${result[0][0].no}" berhasil diperbarui`,
             }))
          } else {
             res.end(JSON.stringify({
@@ -279,12 +277,12 @@ exports.delete = async (req, res) => {
       const decode = verify(req.headers["authorization"])
       if (decode.logged) {
          db = await conn.getConnection()
-         const sql = `call poDelete(?,?)`
+         const sql = `call pdDelete(?,?)`
          const result = await db.query(sql, [param.id, decode.user])
          if (result[0][0].status === "ok") {
             res.end(JSON.stringify({
                success: true,
-               message: `Order Pembelian "${send.label}" berhasil dihapus`,
+               message: `Penerimaan Pembelian "${send.label}" berhasil dihapus`,
             }))
          } else {
             res.end(JSON.stringify({

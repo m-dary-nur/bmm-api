@@ -100,10 +100,11 @@ exports.create = async (req, res) => {
       const decode = verify(req.headers["authorization"])
       if (decode.logged) {
          db = await conn.getConnection()
-         const query = `call warehousesCreate(?,?,?,?,?,?,?)`         
+         const query = `call warehousesCreate(?,?,?,?,?,?,?,?)`         
          const result = await db.query(query, [
             form.name,
-            form.description || "",
+            form.phone,
+            form.address || "",
             (form.active ? 1 : 0),
             decode.client,
             form.branchId,
@@ -152,11 +153,12 @@ exports.update = async (req, res) => {
       const decode = verify(req.headers["authorization"])
       if (decode.logged) {
          db = await conn.getConnection()
-         const query = `call warehousesUpdate(?,?,?,?,?,?,?,?)`
+         const query = `call warehousesUpdate(?,?,?,?,?,?,?,?,?)`
          const result = await db.query(query, [            
             form.id,
             form.name,
-            form.description || "",
+            form.phone,
+            form.address || "",
             (form.active ? 1 : 0),
             decode.client,
             form.branchId,

@@ -74,11 +74,12 @@ exports.getAllDet = async (req, res) => {
                            itemId,
                            DATE_FORMAT(dateRequired, '%Y-%m-%d') AS dateRequired,
                            qty,
+                           qtyLeft,
                            ratio,
                            unit,
-                           description,
                            price,
-                           total
+                           total,
+                           description
                         FROM podet
                         WHERE clientId = ?`
          const result = await db.query(query, [decode.client])

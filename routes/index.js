@@ -93,13 +93,22 @@ app.put("/ppo", ppo.update)
 app.delete("/ppo/:id", ppo.delete)
 
 //_________________________________________ po ___________________________________________
-var ppo = require("./purchase/po")
-app.get("/po", ppo.getAll)
-app.get("/podet", ppo.getAllDet)
-app.get("/po/:id", ppo.getById)
-app.post("/po", ppo.create)
-app.put("/po", ppo.update)
-app.delete("/po/:id", ppo.delete)
+var po = require("./purchase/po")
+app.get("/po", po.getAll)
+app.get("/podet", po.getAllDet)
+app.get("/po/:id", po.getById)
+app.post("/po", po.create)
+app.put("/po", po.update)
+app.delete("/po/:id", po.delete)
+
+//_________________________________________ pd ___________________________________________
+var pd = require("./purchase/pd")
+app.get("/pd", pd.getAll)
+app.get("/pddet", pd.getAllDet)
+app.get("/pd/:id", pd.getById)
+app.post("/pd", pd.create)
+app.put("/pd", pd.update)
+app.delete("/pd/:id", pd.delete)
 
 
 
