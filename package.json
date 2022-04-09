@@ -16,7 +16,7 @@
       "dotenv": "^8.2.0",
       "jsonwebtoken": "^8.5.1",
       "mariadb": "^2.4.1",
-      "moment": "^2.27.0",
+      "moment": "^2.29.2",
       "polka": "^0.5.2",
       "socket.io": "^2.3.0"
    }
